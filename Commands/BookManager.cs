@@ -3,34 +3,38 @@ using Book.Data;
 
 namespace Book.Commands
 {
+    // Класс для управления операциями с книгами
     public class BookManager
     {
         private readonly IValidator _validator;
-        private readonly IDataRepository _repository;
+        private readonly IDataRepository _repository; 
 
+        // Конструктор для инициализации зависимостей
         public BookManager(IValidator validator, IDataRepository repository)
         {
             _validator = validator;
             _repository = repository;
         }
         
+        // Метод для добавления книги
         public async Task AddBookAsync()
         {
             try
             {
+                // Запрашиваем у пользователя данные о книге
                 Console.Write("Введите название книги: ");
                 string title = Console.ReadLine();
- 
+
                 Console.Write("Введите имя автора: ");
                 string author = Console.ReadLine();
- 
+
                 string isbn;
                 while (true)
                 {
-                    Console.Write(
-                        "Введите ISBN книги(например, ISBN-10: 2-266-11156-6 или ISBN-13: 978-2-266-11156-0) : ");
+                    Console.Write("Введите ISBN книги (например, ISBN-10: 2-266-11156-6 или ISBN-13: 978-2-266-11156-0): ");
                     isbn = Console.ReadLine();
- 
+
+                    // Проверяем, что ISBN содержит только цифры и тире
                     if (isbn.All(c => char.IsDigit(c) || c == '-'))
                     {
                         break;
@@ -40,21 +44,22 @@ namespace Book.Commands
                         Console.WriteLine("Ошибка: ISBN должен содержать только цифры и тире. Попробуйте еще раз.");
                     }
                 }
- 
+
                 Console.Write("Введите год написания книги: ");
                 string year = Console.ReadLine();
- 
+
                 Console.Write("Введите ключевые слова (через запятую): ");
-                //List<string> keywords = Console.ReadLine()?.Split(',').Select(k => k.Trim()).ToList();
                 string keywords = Console.ReadLine();
 
-                
                 Console.Write("Введите аннотацию книги: ");
                 string description = Console.ReadLine();
- 
+
+                // Создаем объект книги
                 var newBook = new Books(title, author, isbn, year, keywords, description);
+
+                // Выполняем валидацию книги
                 await _validator.ValidateBookAsync(newBook, _repository);
- 
+                
                 await _repository.SaveBooksAsync(newBook);
                 Console.WriteLine("Книга добавлена успешно.");
             }
@@ -72,7 +77,7 @@ namespace Book.Commands
             }
         }
 
-
+        // Метод для поиска книги
         public async Task FindBookAsync()
         {
             Console.WriteLine("Поиск книги по:");
@@ -90,6 +95,7 @@ namespace Book.Commands
 
             try
             {
+                // Выполняем поиск в зависимости от выбранного пункта
                 switch (choice)
                 {
                     case "1":
@@ -109,6 +115,7 @@ namespace Book.Commands
                         return;
                 }
 
+                // Вывод результатов поиска
                 if (results != null && results.Any())
                 {
                     Console.WriteLine("Результаты поиска:");
@@ -127,6 +134,8 @@ namespace Book.Commands
                 Console.WriteLine($"Ошибка: {ex.Message}");
             }
         }
+
+        // Метод для удаления книги
         public async Task DeleteBookAsync()
         {
             try
@@ -134,6 +143,7 @@ namespace Book.Commands
                 Console.Write("Введите ISBN книги, которую нужно удалить: ");
                 string isbn = Console.ReadLine();
 
+                // Проверяем, существует ли книга с таким ISBN
                 var book = await _repository.SearchBooksByISBNAsync(isbn);
 
                 if (book == null || !book.Any())
@@ -142,6 +152,7 @@ namespace Book.Commands
                     return;
                 }
 
+                // Удаляем книгу
                 await _repository.DeleteBookByIsbnAsync(isbn);
                 Console.WriteLine("Книга успешно удалена.");
             }
@@ -150,6 +161,5 @@ namespace Book.Commands
                 Console.WriteLine($"Ошибка: {ex.Message}");
             }
         }
-
     }
 }

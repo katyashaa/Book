@@ -1,5 +1,4 @@
-﻿using System.Data;
-using Book.Data;
+﻿using Book.Data;
 
 namespace Book.Interfaces
 {

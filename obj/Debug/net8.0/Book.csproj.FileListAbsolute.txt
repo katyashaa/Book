@@ -458,3 +458,4 @@ C:\Users\shadr\RiderProjects\Book\obj\Debug\net8.0\refint\Book.dll
 C:\Users\shadr\RiderProjects\Book\obj\Debug\net8.0\Book.pdb
 C:\Users\shadr\RiderProjects\Book\obj\Debug\net8.0\Book.genruntimeconfig.cache
 C:\Users\shadr\RiderProjects\Book\obj\Debug\net8.0\ref\Book.dll
+C:\Users\shadr\RiderProjects\Book\obj\Debug\net8.0\Book.sourcelink.json

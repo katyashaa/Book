@@ -12,7 +12,6 @@ namespace Book.Data
         public string ISBN { get; set; }
         public string Year { get; set; }
         public string Description { get; set; }
-        //public List<string> Keywords { get; set; }
         public string Keywords { get; set; }
 
         public Books() {}
@@ -31,7 +30,6 @@ namespace Book.Data
         
         public override string ToString()
         {
-            //string keywordFormatted = string.Join(", ", Keywords);
             return $"Title: {Title}\nAuthor: {Author}\nISBN: {ISBN}\nYear: {Year}\nKeywords: {Keywords}\nDescription: {Description}\n";
         }
         // Реализация интерфейса IEnumerable<string>
