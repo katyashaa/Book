@@ -17,7 +17,7 @@ namespace Book.Data
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Конфигурация сущности Books
+            // Конфигурация Books
             modelBuilder.Entity<Books>(entity =>
             {
                 entity.HasKey(t => t.Id); 
@@ -44,7 +44,7 @@ namespace Book.Data
                 // Создаём коллекцию сервисов для настройки зависимостей
                 var services = new ServiceCollection();
 
-                // Добавляем DbContext с настройкой подключения
+                // Добавляем DbContext 
                 services.AddDbContext<BookContext>(options =>
                     options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 

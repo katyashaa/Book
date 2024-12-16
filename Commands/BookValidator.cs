@@ -25,13 +25,6 @@ namespace Book.Commands
             {
                 throw new InvalidException("Ошибка: Все поля должны быть заполнены.");
             }
-            
-            // Поиск книг в репозитории по заданному ISBN
-            var existingBooks = await repository.SearchBooksByISBNAsync(book.ISBN);
-            if (existingBooks.Any(b => b.ISBN.Equals(book.ISBN, StringComparison.OrdinalIgnoreCase)))
-            {
-                throw new DuplicateBookException("Ошибка: Книга с таким ISBN уже существует в базе данных.");
-            }
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Book.Menu
                     case "2": // Если выбрано поиск книги
                         await bookManager.FindBookAsync();
                         break;
-                    case "3": // Если выбрано удалить книгу
+                    case "3": // Если выбрано удаление книги
                         await bookManager.DeleteBookAsync();
                         break;
                     case "4": // Если выбрано выход

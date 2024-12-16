@@ -16,7 +16,6 @@ namespace Book.Commands
             _repository = repository;
         }
         
-        // Метод для добавления книги
         public async Task AddBookAsync()
         {
             try
