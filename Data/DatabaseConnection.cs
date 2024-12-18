@@ -70,14 +70,18 @@ namespace Book.Data
             if (string.IsNullOrWhiteSpace(isbn))
                 throw new ArgumentException("ISBN не может быть пустым.", nameof(isbn));
 
+            // Начало транзакции
+            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
+                // Поиск книги по ISBN
                 var book = await _context.Books.FirstOrDefaultAsync(b => b.ISBN == isbn);
 
                 if (book != null)
                 {
                     _context.Books.Remove(book);
                     await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
                 }
                 else
                 {
@@ -86,13 +90,17 @@ namespace Book.Data
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 Console.WriteLine($"Error deleting book: {ex.Message}");
+                
                 if (ex.InnerException != null)
                 {
                     Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
                 }
+                
                 throw;
             }
         }
+
     }
 }
