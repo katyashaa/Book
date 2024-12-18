@@ -62,6 +62,7 @@ namespace Book.Commands
                 await _repository.SaveBooksAsync(newBook);
                 Console.WriteLine("Книга добавлена успешно.");
             }
+            
             catch (InvalidDataException ex)
             {
                 Console.WriteLine(ex.Message);
