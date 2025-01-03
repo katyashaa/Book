@@ -1,20 +1,28 @@
 ﻿using System.Collections;
 using Book.Interfaces;
-
+using System.ComponentModel.DataAnnotations;
 namespace Book.Data
 {
     // Класс книги, реализующий интерфейс ISearchable
-    public class Books : ISearchable, IEnumerable<string>
+    public class Books : ISearchable
     {
         public int Id { get; set; }
+        [Required]
         public string Title { get; set; }
+        [Required]
         public string Author { get; set; }
+        [Required]
         public string ISBN { get; set; }
+        [Required]
         public string Year { get; set; }
+        [Required]
         public string Description { get; set; }
+        [Required]
         public string Keywords { get; set; }
 
-        public Books() {}
+        public Books()
+        {
+        }
 
         public Books(string title, string author, string isbn, string year, string keywords, string description)
         {
@@ -25,13 +33,16 @@ namespace Book.Data
             Description = description;
             Keywords = keywords;
 
-            
+
         }
-        
+
         public override string ToString()
         {
-            return $"Title: {Title}\nAuthor: {Author}\nISBN: {ISBN}\nYear: {Year}\nKeywords: {Keywords}\nDescription: {Description}\n";
+            //string keywordFormatted = string.Join(", ", Keywords);
+            return
+                $"Title: {Title}\nAuthor: {Author}\nISBN: {ISBN}\nYear: {Year}\nKeywords: {Keywords}\nDescription: {Description}\n";
         }
+
         // Реализация интерфейса IEnumerable<string>
         public IEnumerator<string> GetEnumerator()
         {
@@ -46,6 +57,6 @@ namespace Book.Data
         }
 
         // Реализация интерфейса IEnumerable
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        //IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

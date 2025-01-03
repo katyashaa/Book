@@ -459,3 +459,11 @@ C:\Users\shadr\RiderProjects\Book\obj\Debug\net8.0\Book.pdb
 C:\Users\shadr\RiderProjects\Book\obj\Debug\net8.0\Book.genruntimeconfig.cache
 C:\Users\shadr\RiderProjects\Book\obj\Debug\net8.0\ref\Book.dll
 C:\Users\shadr\RiderProjects\Book\obj\Debug\net8.0\Book.sourcelink.json
+C:\Users\shadr\RiderProjects\Book\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\shadr\RiderProjects\Book\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\shadr\RiderProjects\Book\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\shadr\RiderProjects\Book\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\shadr\RiderProjects\Book\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+C:\Users\shadr\RiderProjects\Book\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\shadr\RiderProjects\Book\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\shadr\RiderProjects\Book\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
