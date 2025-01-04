@@ -7,13 +7,13 @@ using Xunit;
 
 namespace Test
 {
-    public class Test
+    public class TestAddBook
     {
         private Mock<IDataRepository> _mockRepository;
         private BooksController _controller;
 
         [Fact]
-        public async Task AddBook_ValidBook_ReturnsCreatedAtAction()
+        public async Task AddBook()
         {
             // Arrange
             var newBook = new Books { ISBN = "1234567890", Title = "Test Book", Author = "Test Author" };
@@ -25,10 +25,10 @@ namespace Test
             var result = await _controller.AddBook(newBook);
 
             // Assert
-            var actionResult = result as CreatedAtActionResult; // Явное приведение типа
-            Assert.NotNull(actionResult); // Убедитесь, что приведение успешно
+            var actionResult = result as CreatedAtActionResult; 
+            Assert.NotNull(actionResult); 
             Assert.Equal("GetBookByISBN", actionResult.ActionName);
-            Assert.Equal(newBook, actionResult.Value); // Используем Assert.Equal
+            Assert.Equal(newBook, actionResult.Value); 
         }
     }
 }

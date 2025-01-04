@@ -1,6 +1,9 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6b268623_002D619c_002D4c9f_002Dba04_002De5b6495463f9/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::30239FF6-F105-0258-770F-D26FBF7EAD52::net8.0::Test.Test&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::30239FF6-F105-0258-770F-D26FBF7EAD52::net8.0::Test.TestAddBook&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::30239FF6-F105-0258-770F-D26FBF7EAD52::net8.0::Test.TestGetBookByISBN&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::30239FF6-F105-0258-770F-D26FBF7EAD52::net8.0::Test.TestSearchByTitle&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::30239FF6-F105-0258-770F-D26FBF7EAD52::net8.0::Test.TestSearchByAuthor&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
