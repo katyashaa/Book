@@ -20,7 +20,6 @@ builder.Services.AddDbContext<BookContext>(options =>
 builder.Services.AddScoped<IDataRepository, DatabaseConnection>();
 builder.Services.AddScoped<IValidator, BookValidator>();
 
-
 // Добавление контроллеров
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
