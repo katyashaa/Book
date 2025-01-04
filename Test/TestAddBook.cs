@@ -15,16 +15,13 @@ namespace Test
         [Fact]
         public async Task AddBook()
         {
-            // Arrange
-            var newBook = new Books { ISBN = "1234567890", Title = "Test Book", Author = "Test Author" };
+            var newBook = new Books { ISBN = "234-654-345", Title = "Мастер и Маргарита", Author = "Михаил Булгаков" };
             _mockRepository = new Mock<IDataRepository>();
             _controller = new BooksController(_mockRepository.Object);
             _mockRepository.Setup(repo => repo.SaveBooksAsync(newBook)).Returns(Task.CompletedTask);
-
-            // Act
+            
             var result = await _controller.AddBook(newBook);
-
-            // Assert
+            
             var actionResult = result as CreatedAtActionResult; 
             Assert.NotNull(actionResult); 
             Assert.Equal("GetBookByISBN", actionResult.ActionName);

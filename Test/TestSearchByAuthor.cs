@@ -25,8 +25,8 @@ namespace Test
             var testAuthor = "Test Author";
             var expectedBooks = new List<Books>
             {
-                new Books { ISBN = "567898", Title = "Book 1", Author = testAuthor },
-                new Books { ISBN = "567-87345-87", Title = "Book 2", Author = testAuthor }
+                new Books { ISBN = "567898", Title = "Мастер и Маргарита", Author = testAuthor },
+                new Books { ISBN = "567-87345-87", Title = "Преступление и наказание", Author = testAuthor }
             };
 
             _mockRepository

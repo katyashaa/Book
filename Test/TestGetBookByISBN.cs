@@ -21,17 +21,14 @@ namespace Test
         [Fact]
         public async Task GetBookByISBN_ValidISBN()
         {
-            // Arrange
             var testIsbn = "3545-347654-789";
-            var expectedBook = new Books { ISBN = testIsbn, Title = "Test Book", Author = "Test Author" };
+            var expectedBook = new Books { ISBN = testIsbn, Title = "Мастер и Маргарита", Author = "Михаил Булгаков" };
             _mockRepository
                 .Setup(repo => repo.SearchBooksByISBNAsync(testIsbn))
                 .ReturnsAsync(new List<Books> { expectedBook });
-
-            // Act
+            
             var result = await _controller.GetBookByISBN(testIsbn);
-
-            // Assert
+            
             var okResult = Assert.IsType<OkObjectResult>(result.Result); 
             var book = Assert.IsType<Books>(okResult.Value); // Проверка типа возвращенной книги
             Assert.Equal(expectedBook.ISBN, book.ISBN); 
@@ -42,34 +39,28 @@ namespace Test
         [Fact]
         public async Task GetBookByISBN_InvalidISBN()
         {
-            // Arrange
             var testIsbn = "0000000000"; // Несуществующий ISBN
             _mockRepository
                 .Setup(repo => repo.SearchBooksByISBNAsync(testIsbn))
                 .ReturnsAsync(new List<Books>()); // Пустой список
-
-            // Act
+            
             var result = await _controller.GetBookByISBN(testIsbn);
-
-            // Assert
-            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result.Result); // Проверка, что возвращен NotFoundObjectResult
+            
+            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result.Result);
             Assert.Equal("Книга с указанным ISBN не найдена.", notFoundResult.Value); // Проверка сообщения
         }
         
         [Fact]
         public async Task GetBookByISBN_BadRequest()
         {
-            // Arrange
             var testIsbn = "1234567890";
             _mockRepository
                 .Setup(repo => repo.SearchBooksByISBNAsync(testIsbn))
                 .ThrowsAsync(new Exception("Ошибка базы данных"));
-
-            // Act
+            
             var result = await _controller.GetBookByISBN(testIsbn);
-
-            // Assert
-            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result); // Проверка, что возвращен BadRequestObjectResult
+            
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result); 
             Assert.Contains("Ошибка при получении книги", badRequestResult.Value.ToString()); // Проверка сообщения об ошибке
         }
     }
