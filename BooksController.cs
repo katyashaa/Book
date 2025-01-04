@@ -32,9 +32,6 @@ namespace BookApi.Controllers
                 return BadRequest($"Ошибка при добавлении книги: {ex.Message}");
             }
         }
-
-        
-      //  https://www.ozon.ru/product/electrolux-vstraivaemaya-posudomoechnaya-mashina-eem48300l-serebristyy-1594336264/?campaignId=514
         
         // Получить книгу по ISBN
         [HttpGet("{isbn}")]
