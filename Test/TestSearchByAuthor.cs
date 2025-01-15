@@ -5,76 +5,77 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace Test
+namespace Test;
+
+public class TestSearchByAuthor
 {
-    public class TestSearchByAuthor
+    private readonly BooksController _controller;
+    private readonly Mock<IDataRepository> _mockRepository;
+
+    public TestSearchByAuthor()
     {
-        private Mock<IDataRepository> _mockRepository;
-        private BooksController _controller;
+        _mockRepository = new Mock<IDataRepository>();
+        _controller = new BooksController(_mockRepository.Object);
+    }
 
-        public TestSearchByAuthor()
+    [Fact]
+    public async Task SearchByAuthor_ValidAuthor()
+    {
+        // Arrange
+        var testAuthor = "Test Author";
+        var expectedBooks = new List<Books>
         {
-            _mockRepository = new Mock<IDataRepository>();
-            _controller = new BooksController(_mockRepository.Object);
-        }
+            new() { ISBN = "567898", Title = "Мастер и Маргарита", Author = testAuthor },
+            new() { ISBN = "567-87345-87", Title = "Преступление и наказание", Author = testAuthor }
+        };
 
-        [Fact]
-        public async Task SearchByAuthor_ValidAuthor()
-        {
-            // Arrange
-            var testAuthor = "Test Author";
-            var expectedBooks = new List<Books>
-            {
-                new Books { ISBN = "567898", Title = "Мастер и Маргарита", Author = testAuthor },
-                new Books { ISBN = "567-87345-87", Title = "Преступление и наказание", Author = testAuthor }
-            };
+        _mockRepository
+            .Setup(repo => repo.SearchBooksByAuthorAsync(testAuthor))
+            .ReturnsAsync(expectedBooks);
 
-            _mockRepository
-                .Setup(repo => repo.SearchBooksByAuthorAsync(testAuthor))
-                .ReturnsAsync(expectedBooks);
+        // Act
+        var result = await _controller.SearchByAuthor(testAuthor);
 
-            // Act
-            var result = await _controller.SearchByAuthor(testAuthor);
+        // Assert
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        var books = Assert.IsType<List<Books>>(okResult.Value);
+        Assert.Equal(expectedBooks.Count, books.Count);
+        Assert.Equal(expectedBooks[0].Author, books[0].Author);
+    }
 
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result.Result); 
-            var books = Assert.IsType<List<Books>>(okResult.Value); 
-            Assert.Equal(expectedBooks.Count, books.Count); 
-            Assert.Equal(expectedBooks[0].Author, books[0].Author);
-        }
+    [Fact]
+    public async Task SearchByAuthor_InvalidAuthor()
+    {
+        // Arrange
+        var testAuthor = "Лев Толстой";
+        _mockRepository
+            .Setup(repo => repo.SearchBooksByAuthorAsync(testAuthor))
+            .ReturnsAsync(new List<Books>()); // Пустой список
 
-        [Fact]
-        public async Task SearchByAuthor_InvalidAuthor()
-        {
-            // Arrange
-            var testAuthor = "Лев Толстой";
-            _mockRepository
-                .Setup(repo => repo.SearchBooksByAuthorAsync(testAuthor))
-                .ReturnsAsync(new List<Books>()); // Пустой список
+        // Act
+        var result = await _controller.SearchByAuthor(testAuthor);
 
-            // Act
-            var result = await _controller.SearchByAuthor(testAuthor);
+        // Assert
+        var notFoundResult =
+            Assert.IsType<NotFoundObjectResult>(result.Result); // Проверка, что возвращен NotFoundObjectResult
+        Assert.Equal("Книги с таким автором не найдены.", notFoundResult.Value); // Проверка сообщения
+    }
 
-            // Assert
-            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result.Result); // Проверка, что возвращен NotFoundObjectResult
-            Assert.Equal("Книги с таким автором не найдены.", notFoundResult.Value); // Проверка сообщения
-        }
+    [Fact]
+    public async Task SearchByAuthor_BadRequest()
+    {
+        // Arrange
+        var testAuthor = "Error Author";
+        _mockRepository
+            .Setup(repo => repo.SearchBooksByAuthorAsync(testAuthor))
+            .ThrowsAsync(new Exception("Ошибка базы данных"));
 
-        [Fact]
-        public async Task SearchByAuthor_BadRequest()
-        {
-            // Arrange
-            var testAuthor = "Error Author";
-            _mockRepository
-                .Setup(repo => repo.SearchBooksByAuthorAsync(testAuthor))
-                .ThrowsAsync(new Exception("Ошибка базы данных"));
+        // Act
+        var result = await _controller.SearchByAuthor(testAuthor);
 
-            // Act
-            var result = await _controller.SearchByAuthor(testAuthor);
-
-            // Assert
-            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result); // Проверка, что возвращен BadRequestObjectResult
-            Assert.Contains("Ошибка при поиске книги", badRequestResult.Value.ToString()); // Проверка сообщения об ошибке
-        }
+        // Assert
+        var badRequestResult =
+            Assert.IsType<BadRequestObjectResult>(result.Result); // Проверка, что возвращен BadRequestObjectResult
+        Assert.Contains("Ошибка при поиске книги", badRequestResult.Value.ToString()); // Проверка сообщения об ошибке
     }
 }

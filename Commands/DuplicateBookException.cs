@@ -1,10 +1,8 @@
-﻿namespace Book.Commands
-{
+﻿namespace Book.Commands;
 
-    public class DuplicateBookException : Exception
+public class DuplicateBookException : Exception
+{
+    public DuplicateBookException(string message) : base(message)
     {
-        public DuplicateBookException(string message) : base(message)
-        {
-        }
     }
 }

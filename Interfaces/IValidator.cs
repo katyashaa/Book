@@ -1,10 +1,9 @@
 ﻿using Book.Data;
 
-namespace Book.Interfaces
+namespace Book.Interfaces;
+
+// Интерфейс для валидации книг
+public interface IValidator
 {
-    // Интерфейс для валидации книг
-    public interface IValidator
-    {
-        Task ValidateBookAsync(Books book, IDataRepository repository);
-    }
+    Task ValidateBookAsync(Books book, IDataRepository repository);
 }

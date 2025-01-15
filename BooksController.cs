@@ -2,104 +2,102 @@
 using Book.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookApi.Controllers
+namespace BookApi.Controllers;
+
+[ApiController]
+[Route("api/[controller]/[action]")]
+public class BooksController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]/[action]")]
-    public class BooksController : ControllerBase
+    private readonly IDataRepository _repository;
+
+    public BooksController(IDataRepository repository)
     {
-        private readonly IDataRepository _repository;
+        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+    }
 
-        public BooksController(IDataRepository repository)
+    // Добавить книгу
+    [HttpPost]
+    public async Task<ActionResult> AddBook([FromBody] Books newBook)
+    {
+        if (newBook == null)
+            return BadRequest("Книга не может быть пустой.");
+
+        try
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            await _repository.SaveBooksAsync(newBook);
+            return CreatedAtAction(nameof(GetBookByISBN), new { isbn = newBook.ISBN }, newBook);
         }
-
-        // Добавить книгу
-        [HttpPost]
-        public async Task<ActionResult> AddBook([FromBody] Books newBook)
+        catch (Exception ex)
         {
-            if (newBook == null)
-                return BadRequest("Книга не может быть пустой.");
-
-            try
-            {
-                await _repository.SaveBooksAsync(newBook);
-                return CreatedAtAction(nameof(GetBookByISBN), new { isbn = newBook.ISBN }, newBook);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Ошибка при добавлении книги: {ex.Message}");
-            }
+            return BadRequest($"Ошибка при добавлении книги: {ex.Message}");
         }
-        
-        // Получить книгу по ISBN
-        [HttpGet("{isbn}")]
-        public async Task<ActionResult<Books>> GetBookByISBN([FromRoute]string isbn)
+    }
+
+    // Получить книгу по ISBN
+    [HttpGet("{isbn}")]
+    public async Task<ActionResult<Books>> GetBookByISBN([FromRoute] string isbn)
+    {
+        try
         {
-            try
-            {
-                var book = await _repository.SearchBooksByISBNAsync(isbn);
+            var book = await _repository.SearchBooksByISBNAsync(isbn);
 
-                if (book == null || !book.Any())
-                    return NotFound("Книга с указанным ISBN не найдена.");
+            if (book == null || !book.Any())
+                return NotFound("Книга с указанным ISBN не найдена.");
 
-                return Ok(book.First());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Ошибка при получении книги: {ex.Message}");
-            }
+            return Ok(book.First());
         }
-
-        // Найти книги по названию
-        [HttpGet("search/title/{title}")]
-        public async Task<ActionResult<IEnumerable<Books>>> SearchByTitle(string title)
+        catch (Exception ex)
         {
-            try
-            {
-                var results = await _repository.SearchBooksByTitleAsync(title);
-                return results.Any() ? Ok(results) : NotFound("Книги с таким названием не найдены.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Ошибка при поиске книги: {ex.Message}");
-            }
+            return BadRequest($"Ошибка при получении книги: {ex.Message}");
         }
+    }
 
-        // Найти книги по автору
-        [HttpGet("search/author/{author}")]
-        public async Task<ActionResult<IEnumerable<Books>>> SearchByAuthor(string author)
+    // Найти книги по названию
+    [HttpGet("search/title/{title}")]
+    public async Task<ActionResult<IEnumerable<Books>>> SearchByTitle(string title)
+    {
+        try
         {
-            try
-            {
-                var results = await _repository.SearchBooksByAuthorAsync(author);
-                return results.Any() ? Ok(results) : NotFound("Книги с таким автором не найдены.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Ошибка при поиске книги: {ex.Message}");
-            }
+            var results = await _repository.SearchBooksByTitleAsync(title);
+            return results.Any() ? Ok(results) : NotFound("Книги с таким названием не найдены.");
         }
-
-        // Удалить книгу по ISBN
-        [HttpDelete("{isbn}")]
-        public async Task<ActionResult> DeleteBook(string isbn)
+        catch (Exception ex)
         {
-            try
-            {
-                await _repository.DeleteBookByIsbnAsync(isbn);
-                return NoContent();
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Ошибка при удалении книги: {ex.Message}");
-            }
+            return BadRequest($"Ошибка при поиске книги: {ex.Message}");
+        }
+    }
+
+    // Найти книги по автору
+    [HttpGet("search/author/{author}")]
+    public async Task<ActionResult<IEnumerable<Books>>> SearchByAuthor(string author)
+    {
+        try
+        {
+            var results = await _repository.SearchBooksByAuthorAsync(author);
+            return results.Any() ? Ok(results) : NotFound("Книги с таким автором не найдены.");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest($"Ошибка при поиске книги: {ex.Message}");
+        }
+    }
+
+    // Удалить книгу по ISBN
+    [HttpDelete("{isbn}")]
+    public async Task<ActionResult> DeleteBook(string isbn)
+    {
+        try
+        {
+            await _repository.DeleteBookByIsbnAsync(isbn);
+            return NoContent();
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest($"Ошибка при удалении книги: {ex.Message}");
         }
     }
 }
-

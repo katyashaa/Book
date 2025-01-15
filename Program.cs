@@ -1,16 +1,17 @@
+using Book.Commands;
 using Book.Data;
 using Book.Interfaces;
-using Book.Commands;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Подключение к appsettings.json
-builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: false);
+builder.Configuration.AddJsonFile("appsettings.json", true, false);
 
 // Добавление DbContext
 builder.Services.AddDbContext<BookContext>(options =>
@@ -23,7 +24,7 @@ builder.Services.AddScoped<IValidator, BookValidator>();
 // Добавление контроллеров
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
-        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
 // Добавление Swagger
 builder.Services.AddEndpointsApiExplorer();
