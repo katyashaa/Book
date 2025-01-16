@@ -93,7 +93,7 @@ public class BooksControllerTests
     }
 
     [Fact]
-    public async Task DeleteBook_BookDoesNotExist()
+    public async Task DeleteBook_DoesNotExist()
     {
         var isbn = "12345";
 
