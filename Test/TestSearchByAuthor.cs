@@ -57,7 +57,7 @@ public class TestSearchByAuthor
 
         // Assert
         var notFoundResult =
-            Assert.IsType<NotFoundObjectResult>(result.Result); // Проверка, что возвращен NotFoundObjectResult
+            Assert.IsType<NotFoundObjectResult>(result.Result); 
         Assert.Equal("Книги с таким автором не найдены.", notFoundResult.Value); // Проверка сообщения
     }
 
@@ -75,7 +75,7 @@ public class TestSearchByAuthor
 
         // Assert
         var badRequestResult =
-            Assert.IsType<BadRequestObjectResult>(result.Result); // Проверка, что возвращен BadRequestObjectResult
+            Assert.IsType<BadRequestObjectResult>(result.Result);
         Assert.Contains("Ошибка при поиске книги", badRequestResult.Value.ToString()); // Проверка сообщения об ошибке
     }
 }
