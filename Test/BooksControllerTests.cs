@@ -42,7 +42,7 @@ public class BooksControllerTests
     }
 
     [Fact]
-    public async Task GetBookByISBN_ReturnBook_WhenBookExists()
+    public async Task GetBookByISBN_BookExists()
     {
         var isbn = "12345";
         var expectedBook = new Books
@@ -66,7 +66,7 @@ public class BooksControllerTests
     }
 
     [Fact]
-    public async Task GetBookByISBN_ReturnNotFound_WhenBookDoesNotExist()
+    public async Task GetBookByISBN_BookDoesNotExist()
     {
         var isbn = "12345";
 
@@ -93,7 +93,7 @@ public class BooksControllerTests
     }
 
     [Fact]
-    public async Task DeleteBook_ShouldReturnNotFound_WhenBookDoesNotExist()
+    public async Task DeleteBook_BookDoesNotExist()
     {
         var isbn = "12345";
 
