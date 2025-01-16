@@ -19,7 +19,7 @@ public class BooksControllerTests
     }
 
     [Fact]
-    public async Task AddBook()
+    public async Task TestAddBook()
     {
         var newBook = new Books
         {
@@ -47,12 +47,12 @@ public class BooksControllerTests
         var isbn = "12345";
         var expectedBook = new Books
         {
-            Title = "Test Book",
-            Author = "Test Author",
-            ISBN = isbn,
-            Year = "2023",
-            Description = "Test Description",
-            Keywords = "test, example, book"
+            Title = "Мастер и Маргарита",
+            Author = "Михаил Булгаков",
+            ISBN = "978-5-17-069829-5",
+            Year = "1967",
+            Description = "Мистический роман о любви, дьяволе и Москве",
+            Keywords = "дьявол, любовь"
         };
 
         _repositoryMock.Setup(repo => repo.SearchBooksByISBNAsync(isbn))

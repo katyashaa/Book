@@ -5,5 +5,6 @@
     &lt;TestId&gt;xUnit::30239FF6-F105-0258-770F-D26FBF7EAD52::net8.0::Test.TestGetBookByISBN&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::30239FF6-F105-0258-770F-D26FBF7EAD52::net8.0::Test.TestSearchByTitle&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::30239FF6-F105-0258-770F-D26FBF7EAD52::net8.0::Test.TestSearchByAuthor&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::30239FF6-F105-0258-770F-D26FBF7EAD52::net8.0::Test.BooksControllerTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
